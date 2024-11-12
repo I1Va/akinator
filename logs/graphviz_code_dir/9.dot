@@ -1,0 +1,8 @@
+digraph G{
+   rankdir=TB;
+   NODE0x5579b6b804a0[pin=true,shape="Mrecord",label="{val: 1 | name: 'ХЗ ЧТО' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x5579b6b80e20[pin=true,shape="Mrecord",label="{val: 1 | name: 'I' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x5579b6b80e60[pin=true,shape="Mrecord",label="{val: 0 | name: 'Evdef' | {<left> 0x5579b6b804a0 | <right> 0x5579b6b80e20}}"];
+   NODE0x5579b6b80e60:left -> NODE0x5579b6b804a0 [color="green",penwidth=2,label="Нет"];
+   NODE0x5579b6b80e60:right -> NODE0x5579b6b80e20 [color="blue",penwidth=2,label="Да"];
+}
