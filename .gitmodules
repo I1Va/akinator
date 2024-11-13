@@ -1,3 +1,6 @@
 [submodule "bin_tree"]
 	path = bin_tree
 	url = https://github.com/I1Va/bin_tree.git
+[submodule "string_funcs"]
+	path = string_funcs
+	url = https://github.com/I1Va/string_funcs.git

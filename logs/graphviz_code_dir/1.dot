@@ -1,8 +1,24 @@
 digraph G{
    rankdir=TB;
-   NODE0x55b02f5c74a0[pin=true,shape="Mrecord",label="{val: 1 | name: 'ХЗ ЧТО' | {<left> (nil) | <right> (nil)}}"];
-   NODE0x55b02f5c7e20[pin=true,shape="Mrecord",label="{val: 1 | name: 'Lexa' | {<left> (nil) | <right> (nil)}}"];
-   NODE0x55b02f5c7e60[pin=true,shape="Mrecord",label="{val: 0 | name: 'Pupenil' | {<left> 0x55b02f5c74a0 | <right> 0x55b02f5c7e20}}"];
-   NODE0x55b02f5c7e60:left -> NODE0x55b02f5c74a0 [color="green",penwidth=2];
-   NODE0x55b02f5c7e60:right -> NODE0x55b02f5c7e20 [color="blue",penwidth=2];
+   NODE0x56314895c560[pin=true,shape="Mrecord",label="{val: 1 | name: 'ХЗ ЧТО' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56314895d9c0[pin=true,shape="Mrecord",label="{val: 1 | name: 'matan' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56314895da00[pin=true,shape="Mrecord",label="{val: 0 | name: 'kills' | {<left> 0x56314895dab0 | <right> 0x56314895db80}}"];
+   NODE0x56314895da70[pin=true,shape="Mrecord",label="{val: 1 | name: 'kapibara' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56314895dab0[pin=true,shape="Mrecord",label="{val: 0 | name: 'cute' | {<left> 0x56314895c560 | <right> 0x56314895dd10}}"];
+   NODE0x56314895db40[pin=true,shape="Mrecord",label="{val: 1 | name: 'shark' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56314895db80[pin=true,shape="Mrecord",label="{val: 0 | name: 'kus' | {<left> 0x56314895dc00 | <right> 0x56314895db40}}"];
+   NODE0x56314895dbc0[pin=true,shape="Mrecord",label="{val: 1 | name: 'proga' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56314895dc00[pin=true,shape="Mrecord",label="{val: 0 | name: 'interesting' | {<left> 0x56314895d9c0 | <right> 0x56314895dbc0}}"];
+   NODE0x56314895dcd0[pin=true,shape="Mrecord",label="{val: 1 | name: 'cat' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56314895dd10[pin=true,shape="Mrecord",label="{val: 0 | name: 'murmur' | {<left> 0x56314895da70 | <right> 0x56314895dcd0}}"];
+   NODE0x56314895da00:left -> NODE0x56314895dab0 [color="green",penwidth=2,label="Нет"];
+   NODE0x56314895da00:right -> NODE0x56314895db80 [color="blue",penwidth=2,label="Да"];
+   NODE0x56314895dab0:left -> NODE0x56314895c560 [color="green",penwidth=2,label="Нет"];
+   NODE0x56314895dab0:right -> NODE0x56314895dd10 [color="blue",penwidth=2,label="Да"];
+   NODE0x56314895db80:left -> NODE0x56314895dc00 [color="green",penwidth=2,label="Нет"];
+   NODE0x56314895db80:right -> NODE0x56314895db40 [color="blue",penwidth=2,label="Да"];
+   NODE0x56314895dc00:left -> NODE0x56314895d9c0 [color="green",penwidth=2,label="Нет"];
+   NODE0x56314895dc00:right -> NODE0x56314895dbc0 [color="blue",penwidth=2,label="Да"];
+   NODE0x56314895dd10:left -> NODE0x56314895da70 [color="green",penwidth=2,label="Нет"];
+   NODE0x56314895dd10:right -> NODE0x56314895dcd0 [color="blue",penwidth=2,label="Да"];
 }

@@ -1,8 +1,24 @@
 digraph G{
    rankdir=TB;
-   NODE0x5645964df4a0[pin=true,shape="Mrecord",label="{val: 1 | name: 'ХЗ ЧТО' | {<left> (nil) | <right> (nil)}}"];
-   NODE0x5645964dfe20[pin=true,shape="Mrecord",label="{val: 1 | name: 'Lexa' | {<left> (nil) | <right> (nil)}}"];
-   NODE0x5645964dfe60[pin=true,shape="Mrecord",label="{val: 0 | name: 'Pupenil' | {<left> 0x5645964df4a0 | <right> 0x5645964dfe20}}"];
-   NODE0x5645964dfe60:left -> NODE0x5645964df4a0 [color="green",penwidth=2];
-   NODE0x5645964dfe60:right -> NODE0x5645964dfe20 [color="blue",penwidth=2];
+   NODE0x56081148c560[pin=true,shape="Mrecord",label="{val: 1 | name: 'ХЗ ЧТО' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56081148d9c0[pin=true,shape="Mrecord",label="{val: 1 | name: 'matan' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56081148da00[pin=true,shape="Mrecord",label="{val: 0 | name: 'kills' | {<left> 0x56081148dab0 | <right> 0x56081148db80}}"];
+   NODE0x56081148da70[pin=true,shape="Mrecord",label="{val: 1 | name: 'kapibara' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56081148dab0[pin=true,shape="Mrecord",label="{val: 0 | name: 'cute' | {<left> 0x56081148c560 | <right> 0x56081148dd10}}"];
+   NODE0x56081148db40[pin=true,shape="Mrecord",label="{val: 1 | name: 'shark' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56081148db80[pin=true,shape="Mrecord",label="{val: 0 | name: 'kus' | {<left> 0x56081148dc00 | <right> 0x56081148db40}}"];
+   NODE0x56081148dbc0[pin=true,shape="Mrecord",label="{val: 1 | name: 'proga' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56081148dc00[pin=true,shape="Mrecord",label="{val: 0 | name: 'interesting' | {<left> 0x56081148d9c0 | <right> 0x56081148dbc0}}"];
+   NODE0x56081148dcd0[pin=true,shape="Mrecord",label="{val: 1 | name: 'cat' | {<left> (nil) | <right> (nil)}}"];
+   NODE0x56081148dd10[pin=true,shape="Mrecord",label="{val: 0 | name: 'murmur' | {<left> 0x56081148da70 | <right> 0x56081148dcd0}}"];
+   NODE0x56081148da00:left -> NODE0x56081148dab0 [color="green",penwidth=2,label="Нет"];
+   NODE0x56081148da00:right -> NODE0x56081148db80 [color="blue",penwidth=2,label="Да"];
+   NODE0x56081148dab0:left -> NODE0x56081148c560 [color="green",penwidth=2,label="Нет"];
+   NODE0x56081148dab0:right -> NODE0x56081148dd10 [color="blue",penwidth=2,label="Да"];
+   NODE0x56081148db80:left -> NODE0x56081148dc00 [color="green",penwidth=2,label="Нет"];
+   NODE0x56081148db80:right -> NODE0x56081148db40 [color="blue",penwidth=2,label="Да"];
+   NODE0x56081148dc00:left -> NODE0x56081148d9c0 [color="green",penwidth=2,label="Нет"];
+   NODE0x56081148dc00:right -> NODE0x56081148dbc0 [color="blue",penwidth=2,label="Да"];
+   NODE0x56081148dd10:left -> NODE0x56081148da70 [color="green",penwidth=2,label="Нет"];
+   NODE0x56081148dd10:right -> NODE0x56081148dcd0 [color="blue",penwidth=2,label="Да"];
 }

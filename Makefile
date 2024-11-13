@@ -82,7 +82,7 @@ override CFLAGS += $(COMMONINC) # CFLAGS - environment variable. We can change i
 
 #/---------------------------PROJECT_SRC_CONFIG--------------------\#
 PROJECT_NAME = akinator
-CSRC = main.cpp
+CSRC = main.cpp src/akinator_err.cpp src/akinator_funcs.cpp
 LOGS_DIR = ./logs
 OUT_O_DIR = build
 COMMONINC = -I./inc
@@ -90,7 +90,7 @@ SRC = ./src
 #/---------------------------PROJECT_SRC_CONFIG--------------------\#
 
 #/---------------------------SUBMODULES_CONFIG--------------------\#
-SUBMODULES = bin_tree
+SUBMODULES = bin_tree string_funcs
 COMMONINC += -I./bin_tree/stack/inc
 #/---------------------------SUBMODULES_CONFIG--------------------\#
 
@@ -144,7 +144,7 @@ all: $(OUT_O_DIR)/$(OUTFILE_NAME) # Target all depends on "$(OUTFILE_NAME)" file
 
 
 launch:
-	$(LAUNCH_PREFLAGS) ./$(OUT_O_DIR)/$(OUTFILE_NAME)
+	$(LAUNCH_PREFLAGS) ./$(OUT_O_DIR)/$(OUTFILE_NAME) < test.txt
 
 #FIXME: научится автоматически создавать динамические библиотеки сабмодулей. cd submodule_path && make DynLibGen
 
