@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdlib>
 #include <cstring>
 #include <stdio.h>
 
@@ -7,28 +8,12 @@
 #include "bin_tree_loger.h"
 #include "bin_tree_err_proc.h"
 #include "general.h"
+#include "string_funcs.h"
 
 #include <stdlib.h>
 
 const char logs_dir[] = "./logs";
-
-void akinator_tree_fprintf(FILE *stream, bin_tree_elem_t *node) {
-    if (!node) {
-        return;
-    }
-    printf("{ ");
-
-    if (node->left) {
-        akinator_tree_fprintf(stream, node->left);
-    }
-    fprintf(stream, "\"%s\" %d %d\n", node->data.name, node->left != NULL, node->right != NULL);
-
-    if (node->right) {
-        akinator_tree_fprintf(stream, node->right);
-    }
-
-    printf("}");
-}
+const char TREE_DUMP_FILE[] = "./tree.txt";
 
 int test_mode() {
     create_logs_dir(logs_dir);
@@ -86,11 +71,9 @@ int main() {
     str_storage_t *string_storage = str_storage_t_ctor(CHUNK_SIZE);
 
 
-
     bin_tree_log_file_start(tree.log_file_ptr);
 
     bin_tree_elem_value_t node = {1, (char *) EMPTY_LEAF_NAME};
-
     tree.root = bin_tree_create_node(&tree, NULL, false, NULL, NULL, node);
 
     for (int i = 0; i < 5; i++) {
@@ -98,8 +81,29 @@ int main() {
     }
     TreeLogDump(&tree);
 
-    akinator_tree_fprintf(stdout, tree.root);
-    bin_tree_dtor(&tree);
+    FILE *tree_file_ptr = fopen(TREE_DUMP_FILE, "wb");
+    if (tree_file_ptr == NULL) {
+        debug("file '%s' open failed", TREE_DUMP_FILE);
+        CLEAR_MEMORY(exit_mark)
+    }
 
-    return 0;
+    akinator_tree_file_dump(tree_file_ptr, tree.root);
+
+    if (fclose(tree_file_ptr)) {
+        debug("file '%s' close failed", TREE_DUMP_FILE);
+        CLEAR_MEMORY(exit_mark)
+    }
+    if (1) {
+        char *text = read_text_from_file(TREE_DUMP_FILE);
+        printf("%s", text);
+    }
+
+    bin_tree_dtor(&tree);
+    str_storage_t_dtor(string_storage);
+    return EXIT_SUCCESS;
+
+    exit_mark:
+    bin_tree_dtor(&tree);
+    str_storage_t_dtor(string_storage);
+    return EXIT_FAILURE;
 }

@@ -47,7 +47,7 @@ void akinator_play(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t *s
             clear_str_bufer(str_bufer, STR_BUFER_SZ);
 
             bin_tree_elem_t *new_node = bin_tree_create_node(tree, NULL, false, NULL, NULL, {1, name});
-            bin_tree_elem_t *feature_node = bin_tree_create_node(tree, cur_node->prev, cur_node->left_son, cur_node, NULL, {0, feature});
+            bin_tree_elem_t *feature_node = bin_tree_create_node(tree, cur_node->prev, cur_node->is_node_left_son, cur_node, NULL, {0, feature});
 
             new_node->prev = feature_node;
             feature_node->right = new_node;
@@ -55,7 +55,7 @@ void akinator_play(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t *s
             if (tree->root == cur_node) {
                 tree->root = feature_node;
             }
-            cur_node->left_son = true;
+            cur_node->is_node_left_son = true;
             cur_node->prev = feature_node;
             cur_node->data.value = true;
             return;
@@ -72,6 +72,31 @@ void akinator_play(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t *s
     }
 }
 
-// void akinator_save_tree(bin_tree_t *tree) {
-//     bin_tree_print(bin_tree_elem_t *node, void (*outp_func)(char *, const size_t, const bin_tree_elem_t *))
-// }
+void fprintf_n_chars(FILE *stream, const char c, const size_t n) {
+    for (size_t i = 0; i < n; i++) {
+        fprintf(stream, "%c", c);
+    }
+}
+
+void akinator_tree_file_dump(FILE* stream, bin_tree_elem_t *node, size_t indent) {
+    if (!node) {
+        return;
+    }
+    fprintf_n_chars(stream, ' ', indent);
+    fprintf(stream, "{");
+    fprintf(stream, "\"%s\" %d %d\n", node->data.name, node->left != NULL, node->right != NULL);
+    if (node->left) {
+        akinator_tree_file_dump(stream, node->left, indent + 4);
+    } else {
+        fprintf_n_chars(stream, ' ', indent);
+        fprintf(stream, "{}\n");
+    }
+    if (node->right) {
+        akinator_tree_file_dump(stream, node->right, indent + 4);
+    } else {
+        fprintf_n_chars(stream, ' ', indent);
+        fprintf(stream, "{}\n");
+    }
+    fprintf_n_chars(stream, ' ', indent);
+    fprintf(stream, "}\n");
+}
