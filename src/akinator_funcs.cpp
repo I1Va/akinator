@@ -51,11 +51,6 @@ bin_tree_elem_t *akinator_load_tree(bin_tree_t *tree, bin_tree_elem_t *prev, boo
     char right = *text->str_ptr;
     text->str_ptr++;
 
-    // printf("text : '%s'\n", text->str_ptr);
-
-    printf("name : '%s', left : {%c}, right : {%c}\n", name, left, right);
-
-    // printf("next : '%s'", *data);
     bool leaf_state = true;
     bin_tree_elem_t *node = bin_tree_create_node(tree, prev, prev_left, NULL, NULL, {0, name});
 
@@ -71,6 +66,7 @@ bin_tree_elem_t *akinator_load_tree(bin_tree_t *tree, bin_tree_elem_t *prev, boo
         tree->root = node;
     }
     node->data.value = leaf_state;
+    node->is_node_left_son = prev_left;
 
     return node;
 }

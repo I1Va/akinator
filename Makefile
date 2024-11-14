@@ -144,7 +144,7 @@ all: $(OUT_O_DIR)/$(OUTFILE_NAME) # Target all depends on "$(OUTFILE_NAME)" file
 
 
 launch:
-	$(LAUNCH_PREFLAGS) ./$(OUT_O_DIR)/$(OUTFILE_NAME)
+	@$(LAUNCH_PREFLAGS) ./$(OUT_O_DIR)/$(OUTFILE_NAME)
 
 #FIXME: научится автоматически создавать динамические библиотеки сабмодулей. cd submodule_path && make DynLibGen
 
@@ -166,7 +166,7 @@ $(OUT_O_DIR)/$(OUTFILE_NAME): $(COBJ) # Each "$(OUTFILE_NAME)" file depends on o
 # echo $^ -> main.o args_proc.o conf_ctor.o error_processing.o output.o stack_funcs.o
 # $@ - target
 #LINKING!!!
-	$(CC) $^ -o $@ $(LDFLAGS) $(EXTRA_FLAGS)
+	@$(CC) $^ -o $@ $(LDFLAGS) $(EXTRA_FLAGS)
 
 # static pattern rule to not redefine generaic one
 #@D - target directory
