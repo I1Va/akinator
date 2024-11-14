@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include "akinator_err.h"
 #include "bin_tree_proc.h"
 #include "akinator_funcs.h"
 
@@ -13,6 +14,65 @@ void clear_str_bufer(char *bufer_ptr, const size_t len) {
     for (size_t i = 0; i < len; i++) {
         bufer_ptr[i] = '\0';
     }
+}
+
+bin_tree_elem_t *akinator_load_tree(bin_tree_t *tree, bin_tree_elem_t *prev, bool prev_left, str_t *text, str_storage_t *storage) {
+    assert(tree != NULL);
+    assert(text != NULL);
+
+    text->str_ptr = strchr(text->str_ptr, '{');
+    if (text->str_ptr == NULL) {
+        debug("'{' lexem hasn't been found");
+        return NULL;
+    }
+    text->str_ptr++;
+
+    text->str_ptr = strchr(text->str_ptr, '"');
+    if (text->str_ptr == NULL) {
+        debug("'\"' lexem hasn't been found");
+        return NULL;
+    }
+    text->str_ptr++;
+
+    char *word_end = strchr(text->str_ptr, '"');
+    if (word_end == NULL) {
+        debug("'\"' lexem hasn't been found");
+        return NULL;
+    }
+    size_t word_len = (size_t) (word_end - text->str_ptr);
+
+    char *name = get_new_str_ptr(&storage, word_len);
+    strncpy(name, text->str_ptr, word_len);
+
+    text->str_ptr = word_end + 1;
+
+    char left = *text->str_ptr;
+    text->str_ptr++;
+    char right = *text->str_ptr;
+    text->str_ptr++;
+
+    // printf("text : '%s'\n", text->str_ptr);
+
+    printf("name : '%s', left : {%c}, right : {%c}\n", name, left, right);
+
+    // printf("next : '%s'", *data);
+    bool leaf_state = true;
+    bin_tree_elem_t *node = bin_tree_create_node(tree, prev, prev_left, NULL, NULL, {0, name});
+
+    if (left == '1') {
+        leaf_state = false;
+        node->left = akinator_load_tree(tree, node, true, text, storage);
+    }
+    if (right == '1') {
+        leaf_state = false;
+        node->right = akinator_load_tree(tree, node, false, text, storage);
+    }
+    if (prev == NULL) {
+        tree->root = node;
+    }
+    node->data.value = leaf_state;
+
+    return node;
 }
 
 void akinator_play(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t *string_storage) {
@@ -87,16 +147,19 @@ void akinator_tree_file_dump(FILE* stream, bin_tree_elem_t *node, size_t indent)
     fprintf(stream, "\"%s\" %d %d\n", node->data.name, node->left != NULL, node->right != NULL);
     if (node->left) {
         akinator_tree_file_dump(stream, node->left, indent + 4);
-    } else {
-        fprintf_n_chars(stream, ' ', indent);
-        fprintf(stream, "{}\n");
     }
+    // else {
+    //     fprintf_n_chars(stream, ' ', indent);
+    //     fprintf(stream, "{}\n");
+    // }
     if (node->right) {
         akinator_tree_file_dump(stream, node->right, indent + 4);
-    } else {
-        fprintf_n_chars(stream, ' ', indent);
-        fprintf(stream, "{}\n");
     }
+    // else {
+    //     fprintf_n_chars(stream, ' ', indent);
+    //     fprintf(stream, "{}\n");
+    // }
     fprintf_n_chars(stream, ' ', indent);
     fprintf(stream, "}\n");
 }
+

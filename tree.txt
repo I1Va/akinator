@@ -1,34 +1,30 @@
 {"kills" 1 1
     {"cute" 1 1
-        {"ХЗ ЧТО" 0 0
-        {}
-        {}
+        {"ХЗ_ЧТО" 1 1
+            {"algem" 0 0
+            }
+            {"FSR=USSR!!!" 0 0
+            }
         }
         {"murmur" 1 1
-            {"kapibara" 0 0
-            {}
-            {}
+            {"NUMBER_ONE" 1 1
+                {"kapibara" 0 0
+                }
+                {"CHINAA" 0 0
+                }
             }
             {"cat" 0 0
-            {}
-            {}
             }
         }
     }
     {"kus" 1 1
         {"interesting" 1 1
             {"matan" 0 0
-            {}
-            {}
             }
             {"proga" 0 0
-            {}
-            {}
             }
         }
         {"shark" 0 0
-        {}
-        {}
         }
     }
 }
