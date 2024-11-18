@@ -58,9 +58,12 @@ EXTRA_FLAGS =
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST)))) #path to makefile
 
 ifeq ($(MODE),DEBUG)
-	CFLAGS = $(CDEBFLAGS)
+	CFLAGS += $(CDEBFLAGS)
+	CFLAGS += $(SANITIZER_FLAGS)
+	LDFLAGS += $(SANITIZER_FLAGS)
+
 	OUT_O_DIR = debug
-	EXTRA_FLAGS = $(SANITIZER_FLAGS)
+	EXTRA_FLAGS += $(SANITIZER_FLAGS)
 endif
 
 

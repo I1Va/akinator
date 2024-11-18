@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <assert.h>
+
+#include "general.h"
 #include "akinator_err.h"
 #include "bin_tree_proc.h"
 #include "akinator_funcs.h"
-
 #include "string_funcs.h"
 
 const size_t STR_BUFER_SZ = 128;
@@ -159,3 +160,221 @@ void akinator_tree_file_dump(FILE* stream, bin_tree_elem_t *node, size_t indent)
     fprintf(stream, "}\n");
 }
 
+
+void akinator_print_node_path(bin_tree_elem_t *node, bool left_son_state) {
+    if (node == NULL) {
+        return;
+    }
+
+    akinator_print_node_path(node->prev, node->is_node_left_son);
+
+    if (left_son_state) {
+        printf("НЕ ");
+    }
+    printf("'%s'; ", node->data.name);
+}
+
+void akinator_write_node_path(stack_t *feature_stack, bin_tree_elem_t *node, bool left_son_state) {
+    if (node == NULL) {
+        return;
+    }
+
+    assert(feature_stack != NULL);
+
+
+    akinator_write_node_path(feature_stack, node->prev, node->is_node_left_son);
+
+    feature_t feature = {};
+    feature.positive = !left_son_state;
+    feature.data = node->data.name;
+
+    stk_err stack_err = STK_ERR_OK;
+
+    stack_push(feature_stack, &feature, &stack_err);
+    if (stack_err != STK_ERR_OK) {
+        DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_stack")
+        CLEAR_MEMORY(exit_mark)
+    }
+
+    return;
+
+    exit_mark:
+
+    // if (feature != NULL) {
+    //     FREE(feature)
+    // }
+
+    return;
+}
+
+bin_tree_elem_t *akinator_get_node_ptr(bin_tree_t *tree, const char name[]) {
+    bool not_leaf_state = false;
+
+    for (size_t i = 0; i < tree->node_stack.size; i++) {
+        stk_err err = STK_ERR_OK;
+
+        bin_tree_elem_t *node = *(bin_tree_elem_t **) stack_get_elem(&tree->node_stack, i, &err);
+        if (err != STK_ERR_OK) {
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "stack elem[%lu] get failed")
+            return NULL;
+        }
+        // printf("node[%lu] : '%s' left_son?: {%d}\n", i, node->data.name, node->is_node_left_son);
+
+        if (strcmp(node->data.name, name) == 0) {
+            if (node->data.value == 0) { // not leaf
+                not_leaf_state = true;
+            } else {
+                return node;
+            }
+        }
+    }
+    if (not_leaf_state) {
+        printf("'%s' - не персонаж, а признак!\n", name);
+    }
+
+    return NULL;
+}
+
+void akinator_fprintf_feature_stack(FILE* stream, stack_t *feature_stack) {
+    assert(feature_stack != NULL);
+
+    stk_err stack_err = STK_ERR_OK;
+
+    for (size_t i = 0; i < feature_stack->size; i++) {
+        feature_t feature = *(feature_t *) stack_get_elem(feature_stack, i, &stack_err);
+        if (stack_err != STK_ERR_OK) {
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "stack_get_elem [%lu] falied", i)
+            return;
+        }
+        fprintf(stream, "feature[%lu]: {pos: '%d', data: '%s'}\n", i, feature.positive, feature.data);
+    }
+}
+
+void akinator_give_definition(bin_tree_t *tree, const char name[]) {
+    bin_tree_elem_t *start_node = akinator_get_node_ptr(tree, name);
+
+    if (start_node == NULL) {
+        printf("Персонажа '%s' нет в базе данных\n", name);
+        return;
+    }
+
+    printf("Описание персонажа '%s': \n", name);
+    akinator_print_node_path(start_node->prev, start_node->is_node_left_son);
+    printf("\n");
+
+
+    printf("stack_contaiment: \n");
+    stk_err stack_err = STK_ERR_OK;
+
+    stack_t feature_stack = {};
+    STACK_INIT(&feature_stack, tree->n_nodes, sizeof(feature_t), tree->log_file_ptr, &stack_err)
+
+    akinator_write_node_path(&feature_stack, start_node->prev, start_node->is_node_left_son);
+
+    akinator_fprintf_feature_stack(stdout, &feature_stack);
+
+    printf("\n");
+
+    stack_destroy(&feature_stack);
+}
+
+bool feature_t_cmp(feature_t *feature_1, feature_t *feature_2) {
+    return (strcmp(feature_1->data, feature_2->data) == 0) && feature_1->positive == feature_2->positive;
+}
+
+void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) {
+    bin_tree_elem_t *node1 = akinator_get_node_ptr(tree, name1);
+    bin_tree_elem_t *node2 = akinator_get_node_ptr(tree, name2);
+
+    stk_err stack_err = STK_ERR_OK;
+
+    if (node1 == NULL) {
+        printf("Персонажа '%s' нет в базе данных\n", name1);
+        return;
+    }
+    if (node2 == NULL) {
+        printf("Персонажа '%s' нет в базе данных\n", name2);
+        return;
+    }
+
+    stack_t path1_stack = {};
+    stack_t path2_stack = {};
+    size_t eq_prefix_idx = 0;
+    STACK_INIT(&path1_stack, tree->n_nodes, sizeof(feature_t), NULL, &stack_err);
+    if (stack_err != STK_ERR_OK) {
+        DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "node stack 1 init failed")
+        CLEAR_MEMORY(exit_mark)
+    }
+    akinator_write_node_path(&path1_stack, node1->prev, node1->is_node_left_son);
+
+
+    STACK_INIT(&path2_stack, tree->n_nodes, sizeof(feature_t), NULL, &stack_err);
+    if (stack_err != STK_ERR_OK) {
+        DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "node stack 1 init failed")
+        CLEAR_MEMORY(exit_mark)
+    }
+    akinator_write_node_path(&path2_stack, node2->prev, node2->is_node_left_son);
+
+
+    printf("stack1:\n");
+    akinator_fprintf_feature_stack(stdout, &path1_stack);
+    printf("stack2:\n");
+    akinator_fprintf_feature_stack(stdout, &path2_stack);
+
+
+    printf("Персонажи '%s' и '%s' похожи тем, что они оба: \n", name1, name2);
+
+    for (; eq_prefix_idx < MIN(path1_stack.size, path2_stack.size); eq_prefix_idx++) {
+        feature_t feature_1 = *(feature_t *) stack_get_elem(&path1_stack, eq_prefix_idx, &stack_err);
+        if (stack_err != STK_ERR_OK) {
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_1")
+            CLEAR_MEMORY(exit_mark)
+        }
+
+        feature_t feature_2 = *(feature_t *) stack_get_elem(&path2_stack, eq_prefix_idx, &stack_err);
+        if (stack_err != STK_ERR_OK) {
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_1")
+            CLEAR_MEMORY(exit_mark)
+        }
+
+        if (feature_t_cmp(&feature_1, &feature_2)) {
+            if (!feature_1.positive) {
+                printf("НЕ ");
+            }
+            printf("'%s'; ", feature_1.data);
+        } else {
+            break;
+        }
+    }
+    printf("\nОтличительные черты '%s':\n", name1);
+    for (size_t idx = eq_prefix_idx; idx < path1_stack.size; idx++) {
+        feature_t feature_1 = *(feature_t *) stack_get_elem(&path1_stack, idx, &stack_err);
+        if (stack_err != STK_ERR_OK) {
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_1")
+            CLEAR_MEMORY(exit_mark)
+        }
+        if (!feature_1.positive) {
+            printf("НЕ ");
+        }
+        printf("'%s'; ", feature_1.data);
+    }
+
+    printf("\nОтличительные черты '%s':\n", name2);
+    for (size_t idx = eq_prefix_idx; idx < path1_stack.size; idx++) {
+        feature_t feature_2 = *(feature_t *) stack_get_elem(&path2_stack, idx, &stack_err);
+        if (stack_err != STK_ERR_OK) {
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_1")
+            CLEAR_MEMORY(exit_mark)
+        }
+        if (!feature_2.positive) {
+            printf("НЕ ");
+        }
+        printf("'%s'; ", feature_2.data);
+    }
+
+
+    exit_mark:
+    stack_destroy(&path1_stack);
+    stack_destroy(&path2_stack);
+
+}

@@ -11,6 +11,7 @@ enum akinator_err_t {
     AR_ERR_STACK                    = 1ull << 3,
     AR_ERR_CYCLED                   = 1ull << 4,
     AR_ERR_REALLOC                  = 1ull << 5,
+    AR_ERR_NULLPTR                  = 1ull << 6,
 };
 
 const size_t ERR_DESCR_MAX_SIZE = 128;
