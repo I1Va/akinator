@@ -160,7 +160,6 @@ void akinator_tree_file_dump(FILE* stream, bin_tree_elem_t *node, size_t indent)
     fprintf(stream, "}\n");
 }
 
-
 void akinator_print_node_path(bin_tree_elem_t *node, bool left_son_state) {
     if (node == NULL) {
         return;
