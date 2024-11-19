@@ -1,23 +1,26 @@
 #include <stdio.h>
 #include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "general.h"
 #include "akinator_err.h"
 #include "bin_tree_proc.h"
 #include "akinator_funcs.h"
+#include "bin_tree_loger.h"
 #include "string_funcs.h"
 
-const size_t STR_BUFER_SZ = 128;
+const size_t bufer_SZ = 128;
 
-char str_bufer[STR_BUFER_SZ] = {};
+char bufer[bufer_SZ] = {};
 
-void clear_str_bufer(char *bufer_ptr, const size_t len) {
+void clear_bufer(char *bufer_ptr, const size_t len) {
     for (size_t i = 0; i < len; i++) {
         bufer_ptr[i] = '\0';
     }
 }
 
-bin_tree_elem_t *akinator_load_tree(bin_tree_t *tree, bin_tree_elem_t *prev, bool prev_left, str_t *text, str_storage_t *storage) {
+bin_tree_elem_t *akinator_load_tree(bin_tree_t *tree, bin_tree_elem_t *prev, bool prev_left, str_t *text, str_storage_t **storage) {
     assert(tree != NULL);
     assert(text != NULL);
 
@@ -42,7 +45,7 @@ bin_tree_elem_t *akinator_load_tree(bin_tree_t *tree, bin_tree_elem_t *prev, boo
     }
     size_t word_len = (size_t) (word_end - text->str_ptr);
 
-    char *name = get_new_str_ptr(&storage, word_len);
+    char *name = get_new_str_ptr(storage, word_len);
     strncpy(name, text->str_ptr, word_len);
 
     text->str_ptr = word_end + 1;
@@ -72,7 +75,7 @@ bin_tree_elem_t *akinator_load_tree(bin_tree_t *tree, bin_tree_elem_t *prev, boo
     return node;
 }
 
-void akinator_play(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t *string_storage) {
+void akinator_play(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t **string_storage) {
     assert(tree != NULL);
     assert(cur_node != NULL);
 
@@ -89,19 +92,17 @@ void akinator_play(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t *s
         } else {
             printf("Хм... Не могу угадать. Кто ваш персонаж?\n");
 
-            scanf("%s", str_bufer);
-            size_t name_bufer_len = strlen(str_bufer) + 1;
-            char *name = get_new_str_ptr(&string_storage, name_bufer_len);
-            strncpy(name, str_bufer, name_bufer_len);
-            clear_str_bufer(str_bufer, STR_BUFER_SZ);
+            scanf("%s", bufer);
+            size_t name_bufer_len = strlen(bufer) + 1;
+            char *name = get_new_str_ptr(string_storage, name_bufer_len);
+            strncpy(name, bufer, name_bufer_len);
 
             printf("Чем ваш персонаж отличается от '%s'?\n", cur_node->data.name);
 
-            scanf("%s", str_bufer);
-            size_t feature_bufer_len = strlen(str_bufer) + 1;
-            char *feature = get_new_str_ptr(&string_storage, feature_bufer_len);
-            strncpy(feature, str_bufer, feature_bufer_len);
-            clear_str_bufer(str_bufer, STR_BUFER_SZ);
+            scanf("%s", bufer);
+            size_t feature_bufer_len = strlen(bufer) + 1;
+            char *feature = get_new_str_ptr(string_storage, feature_bufer_len);
+            strncpy(feature, bufer, feature_bufer_len);
 
             bin_tree_elem_t *new_node = bin_tree_create_node(tree, NULL, false, NULL, NULL, {1, name});
             bin_tree_elem_t *feature_node = bin_tree_create_node(tree, cur_node->prev, cur_node->is_node_left_son, cur_node, NULL, {0, feature});
@@ -270,7 +271,7 @@ void akinator_give_definition(bin_tree_t *tree, const char name[]) {
 
     akinator_write_node_path(&feature_stack, start_node->prev, start_node->is_node_left_son);
 
-    akinator_fprintf_feature_stack(stdout, &feature_stack);
+    // akinator_fprintf_feature_stack(stdout, &feature_stack);
 
     printf("\n");
 
@@ -315,10 +316,10 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
     akinator_write_node_path(&path2_stack, node2->prev, node2->is_node_left_son);
 
 
-    printf("stack1:\n");
-    akinator_fprintf_feature_stack(stdout, &path1_stack);
-    printf("stack2:\n");
-    akinator_fprintf_feature_stack(stdout, &path2_stack);
+    // printf("stack1:\n");
+    // akinator_fprintf_feature_stack(stdout, &path1_stack);
+    // printf("stack2:\n");
+    // akinator_fprintf_feature_stack(stdout, &path2_stack);
 
 
     printf("Персонажи '%s' и '%s' похожи тем, что они оба: \n", name1, name2);
@@ -359,7 +360,7 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
     }
 
     printf("\nОтличительные черты '%s':\n", name2);
-    for (size_t idx = eq_prefix_idx; idx < path1_stack.size; idx++) {
+    for (size_t idx = eq_prefix_idx; idx < path2_stack.size; idx++) {
         feature_t feature_2 = *(feature_t *) stack_get_elem(&path2_stack, idx, &stack_err);
         if (stack_err != STK_ERR_OK) {
             DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_1")
@@ -371,9 +372,268 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
         printf("'%s'; ", feature_2.data);
     }
 
-
     exit_mark:
     stack_destroy(&path1_stack);
     stack_destroy(&path2_stack);
+}
 
+bool description_t_ctor(description_t *description, char *name, const size_t features_cnt, str_storage_t **storage) {
+    assert(description != NULL);
+    assert(name != NULL);
+    assert(storage != NULL);
+
+    description->name_len = strlen(name);
+    description->name = get_new_str_ptr(storage, description->name_len);
+    strcpy(description->name, name);
+
+    description->features_cnt = features_cnt;
+    description->features = (feature_t *) calloc(description->features_cnt, sizeof(feature_t));
+
+    if (description->features == NULL) {
+        DEBUG_AR_LIST_ERROR(AR_ERR_ALLOC, "description->features")
+        return false;
+    }
+
+    return true;
+}
+
+bool description_t_dtor(description_t *description) {
+    if (!description) {
+        return false;
+    }
+    if (!description->features) {
+        return false;
+
+    }
+
+    FREE(description->features);
+    return true;
+}
+
+bool descr_arr_t_dtor(descr_arr_t *arr) {
+    if (!arr) {
+        return false;
+    }
+    if (!arr->data) {
+        return false;
+    }
+
+    bool state = true;
+
+    for (size_t i = 0; i < arr->len; i++) {
+        if (!description_t_dtor(&(*arr).data[i])) {
+            state = false;
+        }
+    }
+    if (arr->data) {
+        FREE(arr->data)
+    }
+    FREE(arr)
+
+    return state;
+}
+
+void fprintf_description_t(FILE *stream, description_t *description) {
+    fprintf(stream, "object_name: '%s', features_cnt: {%lu}\n", description->name, description->features_cnt);
+    for (size_t i = 0; i < description->features_cnt; i++) {
+        fprintf(stream, "p%d u%d '%s'; ", description->features[i].positive, description->features[i].used, description->features[i].data);
+    }
+    fprintf(stream, "\n");
+}
+
+void fprintf_arr_descr_t(FILE *stream, descr_arr_t *arr) {
+    bin_tree_fprintf_title(stream, "DESCR_ARRAY", '-', BORDER_SZ);
+
+    for (size_t i = 0; i < arr->len; i++) {
+        fprintf_description_t(stream, &arr->data[i]);
+        fprintf(stream, "\n");
+    }
+    fprintf(stream, "\n");
+
+    bin_tree_fprintf_border(stream, '-', BORDER_SZ, true);
+}
+
+descr_arr_t *get_descriptions_from_file(const char path[], str_storage_t **storage) {
+    FILE *inp_file = fopen(path, "r");
+    size_t descriptions_cnt = 0;
+
+    descr_arr_t *descr_arr = (descr_arr_t *) calloc(1, sizeof(descr_arr_t));
+    if (!descr_arr) {
+        DEBUG_AR_LIST_ERROR(AR_ERR_ALLOC, "*descr_arr")
+        CLEAR_MEMORY(exit_mark)
+    }
+
+    if (inp_file == NULL) {
+        DEBUG_AR_LIST_ERROR(AR_ERR_FILE_OPEN, "path : '%s'", path)
+        CLEAR_MEMORY(exit_mark)
+    }
+
+    fscanf(inp_file, "%lu", &descriptions_cnt);
+
+    descr_arr->data = (description_t *) calloc(descriptions_cnt, sizeof(description_t));
+    descr_arr->len = descriptions_cnt;
+
+    if (descr_arr->data == NULL) {
+        DEBUG_AR_LIST_ERROR(AR_ERR_ALLOC, "descr_arr->data")
+        CLEAR_MEMORY(exit_mark)
+    }
+
+
+    for (size_t descr_idx = 0; descr_idx < descriptions_cnt; descr_idx++) {
+        size_t features_cnt = 0;
+        fscanf(inp_file, "%s %lu", bufer, &features_cnt);
+
+        description_t *description = &descr_arr->data[descr_idx];
+
+        if (!description_t_ctor(description, bufer, features_cnt, storage)) {
+            DEBUG_AR_LIST_ERROR(AR_ERR_ALLOC, "description_t_ctor")
+            CLEAR_MEMORY(exit_mark)
+        }
+
+
+        // printf("object_name: '%s', features_cnt: {%lu}\n", descr_arr->data[descr_idx].name, features_cnt);
+
+        for (size_t feature_idx = 0; feature_idx < features_cnt; feature_idx++) {
+            int positive_state = 0;
+            fscanf(inp_file, "%d %s", &positive_state, bufer);
+            printf("bufer_sz: %lu\n", strlen(bufer));
+            description->features[feature_idx].data = get_new_str_ptr(storage, strlen(bufer));
+            description->features[feature_idx].positive = positive_state;
+            strcpy(description->features[feature_idx].data, bufer);
+
+        }
+    }
+
+    return descr_arr;
+
+    exit_mark:
+    descr_arr_t_dtor(descr_arr);
+
+    return NULL;
+}
+
+feature_t *get_uniq_feature(description_t *descr) {
+    for (; descr->uniq_feature_idx < descr->features_cnt; descr->uniq_feature_idx++) {
+        if (!descr->features[descr->uniq_feature_idx].used) {
+            descr->features[descr->uniq_feature_idx++].used = true;
+            return &descr->features[descr->uniq_feature_idx - 1];
+        }
+    }
+    return NULL;
+}
+
+void change_uniq_feature_status(feature_t *feature, descr_arr_t *arr) {
+    for (size_t descr_idx = 0; descr_idx < arr->len; descr_idx++) {
+        for (size_t feature_idx = 0; feature_idx < arr->data[descr_idx].features_cnt; feature_idx++) {
+            if (strcmp(arr->data[descr_idx].features[feature_idx].data, feature->data) == 0) {
+                arr->data[descr_idx].features[feature_idx].used = true;
+            }
+        }
+    }
+}
+
+bool feature_in_description(description_t *descr, char *name, descr_arr_t *arr) { // O(n^2)
+    for (size_t i = 0; i < descr->features_cnt; i++) {
+        if (strcmp(descr->features[i].data, name) == 0 && descr->features[i].positive) {
+            change_uniq_feature_status(&descr->features[i], arr);
+            return true;
+        }
+    }
+    return false;
+}
+
+void akinator_add_description_to_tree(bin_tree_t *tree, bin_tree_elem_t *cur_node, str_storage_t **string_storage,
+    description_t *descr, descr_arr_t *arr)
+{
+    assert(tree != NULL);
+    assert(cur_node != NULL);
+
+    // У каждой вершины, у которой leaf == 0 обязательно есть левый и правый сыновья
+
+    if (cur_node->data.value) { // leaf
+        printf("Ваш персонаж: '%s'? [0/1]\n", cur_node->data.name);
+        int answer = (strcmp(descr->name, cur_node->data.name) == 0);
+
+        printf("-> %d\n", answer);
+        if (answer) {
+            printf("Изи, я угадал ^_^!\n");
+            return;
+        } else {
+            printf("Хм... Не могу угадать. Кто ваш персонаж?\n");
+
+            char *name = get_new_str_ptr(string_storage, descr->name_len);
+            strncpy(name, descr->name, descr->name_len);
+
+            printf("-> '%s'\n", name);
+
+            printf("Чем ваш персонаж отличается от '%s'?\n", cur_node->data.name);
+
+            feature_t *uniq_feature = get_uniq_feature(descr);
+            if (uniq_feature == NULL) {
+                DEBUG_AR_LIST_ERROR(AR_ERR_NOT_ENOUGH_FEATURES, "description : '%s'")
+                return;
+            }
+
+            printf("-> '%s'\n", uniq_feature->data);
+
+            bin_tree_elem_t *new_node = bin_tree_create_node(tree, NULL, false, NULL, NULL, {1, descr->name});
+
+            if (uniq_feature->positive) {
+                bin_tree_elem_t *feature_node = bin_tree_create_node(tree, cur_node->prev, cur_node->is_node_left_son, cur_node, NULL, {0, uniq_feature->data});
+                printf_grn("cur_node : '%s', left? : [%d]\n", cur_node->data.name, cur_node->is_node_left_son);
+                printf_grn("feature : '%s', left? : [%d]\n", feature_node->data.name, cur_node->is_node_left_son);
+                new_node->prev = feature_node;
+                feature_node->right = new_node;
+                cur_node->is_node_left_son = true;
+                new_node->is_node_left_son = false;
+
+                if (tree->root == cur_node) {
+                    tree->root = feature_node;
+                }
+                cur_node->prev = feature_node;
+                cur_node->data.value = true;
+            } else {
+                bin_tree_elem_t *feature_node = bin_tree_create_node(tree, cur_node->prev, cur_node->is_node_left_son, NULL, cur_node, {0, uniq_feature->data});
+                new_node->prev = feature_node;
+                feature_node->left = new_node;
+                cur_node->is_node_left_son = false;
+                new_node->is_node_left_son = true;
+                if (tree->root == cur_node) {
+                    tree->root = feature_node;
+                }
+                cur_node->prev = feature_node;
+                cur_node->data.value = true;
+            }
+
+
+            return;
+        }
+    } else {
+        printf("У вашего персонажа есть признак: %s? [0/1]\n", cur_node->data.name);
+
+        int answer = feature_in_description(descr, cur_node->data.name, arr);
+        printf("-> %d\n", answer);
+
+        if (!answer) {
+            akinator_add_description_to_tree(tree, cur_node->left, string_storage, descr, arr);
+        } else {
+            akinator_add_description_to_tree(tree, cur_node->right, string_storage, descr, arr);
+        }
+    }
+}
+
+void build_tree_from_descr_arr(bin_tree_t *tree, descr_arr_t *arr, str_storage_t **storage) {
+    assert(tree != NULL);
+    assert(arr != NULL);
+
+    if (arr->len == 0) {
+       return;
+    }
+
+    tree->root = bin_tree_create_node(tree, NULL, false, NULL, NULL, {1, arr->data[0].name});
+    for (size_t i = 1; i < arr->len; i++) {
+        akinator_add_description_to_tree(tree, tree->root, storage, &arr->data[i], arr);
+    }
+
+    // fprintf_arr_descr_t(stdout, arr);
 }

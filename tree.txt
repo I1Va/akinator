@@ -1,30 +1,218 @@
-{"kills" 1 1
-    {"cute" 1 1
-        {"ХЗ_ЧТО" 1 1
-            {"algem" 0 0
+    {"intelligent" 1 1
+        {"courageous" 1 1
+            {"energetic" 1 1
+                {"charismatic" 1 1
+                    {"disciplined" 1 1
+                        {"empathetic" 1 1
+                            {"determined" 1 1
+                                {"reserved" 1 1
+                                    {"creative" 1 1
+                                        {"brilliant" 1 1
+                                            {"imaginative" 1 1
+                                                {"inventive" 1 1
+                                                    {"pioneering" 1 1
+                                                        {"industrious" 1 1
+                                                            {"innovative" 1 1
+                                                                {"visionary" 1 1
+                                                                    {"analytical" 1 1
+                                                                        {"george_washington" 0 0
+                                                                        }
+                                                                        {"charles_babbage" 0 0
+                                                                        }
+                                                                    }
+                                                                    {"tim_berners_lee" 0 0
+                                                                    }
+                                                                }
+                                                                {"benjamin_franklin" 0 0
+                                                                }
+                                                            }
+                                                            {"james_watt" 0 0
+                                                            }
+                                                        }
+                                                        {"meticulous" 1 1
+                                                            {"galileo_galilei" 0 0
+                                                            }
+                                                            {"otto_von_guericke" 0 0
+                                                            }
+                                                        }
+                                                    }
+                                                    {"persistent" 1 1
+                                                        {"resourceful" 1 1
+                                                            {"meticulous" 1 1
+                                                                {"diligent" 1 1
+                                                                    {"alexander_graham_bell" 0 0
+                                                                    }
+                                                                    {"antonio_meucci" 0 0
+                                                                    }
+                                                                }
+                                                                {"alessandro_volta" 0 0
+                                                                }
+                                                            }
+                                                            {"industrious" 1 1
+                                                                {"george_washington_carver" 0 0
+                                                                }
+                                                                {"thomas_savery" 0 0
+                                                                }
+                                                            }
+                                                        }
+                                                        {"johannes_gutenberg" 0 0
+                                                        }
+                                                    }
+                                                }
+                                                {"leonardo_da_vinci" 0 0
+                                                }
+                                            }
+                                            {"curious" 1 1
+                                                {"impulsive" 1 1
+                                                    {"guglielmo_marconi" 0 0
+                                                    }
+                                                    {"marie_curie" 0 0
+                                                    }
+                                                }
+                                                {"alexander_fleming" 0 0
+                                                }
+                                            }
+                                        }
+                                        {"ambitious" 1 1
+                                            {"logical" 1 1
+                                                {"nikola_tesla" 0 0
+                                                }
+                                                {"blaise_pascal" 0 0
+                                                }
+                                            }
+                                            {"wright_brothers" 0 0
+                                            }
+                                        }
+                                    }
+                                    {"james_buchanan" 0 0
+                                    }
+                                }
+                                {"arrogant" 1 1
+                                    {"innovative" 1 1
+                                        {"ingenious" 1 1
+                                            {"ambitious" 1 1
+                                                {"lyndon_b_johnson" 0 0
+                                                }
+                                                {"robert_fulton" 0 0
+                                                }
+                                            }
+                                            {"samuel_morse" 0 0
+                                            }
+                                        }
+                                        {"meticulous" 1 1
+                                            {"thomas_edison" 0 0
+                                            }
+                                            {"eli_whitney" 0 0
+                                            }
+                                        }
+                                    }
+                                    {"george_w_bush" 0 0
+                                    }
+                                }
+                            }
+                            {"jimmy_carter" 0 0
+                            }
+                        }
+                        {"principled" 1 1
+                            {"analytical" 1 1
+                                {"innovative" 1 1
+                                    {"visionary" 1 1
+                                        {"industrious" 1 1
+                                            {"dwight_d_eisenhower" 0 0
+                                            }
+                                            {"henry_ford" 0 0
+                                            }
+                                        }
+                                        {"ada_lovelace" 0 0
+                                        }
+                                    }
+                                    {"grace_hopper" 0 0
+                                    }
+                                }
+                                {"aloof" 1 1
+                                    {"ingenious" 1 1
+                                        {"james_clerk_maxwell" 0 0
+                                        }
+                                        {"herman_hollerith" 0 0
+                                        }
+                                    }
+                                    {"isaac_newton" 0 0
+                                    }
+                                }
+                            }
+                            {"calvin_coolidge" 0 0
+                            }
+                        }
+                    }
+                    {"diplomatic" 1 1
+                        {"bold" 1 1
+                            {"visionary" 1 1
+                                {"franklin_d_roosevelt" 0 0
+                                }
+                                {"steve_jobs" 0 0
+                                }
+                            }
+                            {"andrew_jackson" 0 0
+                            }
+                        }
+                        {"ronald_reagan" 0 0
+                        }
+                    }
+                }
+                {"theodore_roosevelt" 0 0
+                }
             }
-            {"FSR=USSR!!!" 0 0
+            {"charismatic" 1 1
+                {"abraham_lincoln" 0 0
+                }
+                {"john_f_kennedy" 0 0
+                }
             }
         }
-        {"murmur" 1 1
-            {"NUMBER_ONE" 1 1
-                {"kapibara" 0 0
+        {"diplomatic" 1 1
+            {"visionary" 1 1
+                {"eloquent" 1 1
+                    {"pragmatic" 1 1
+                        {"principled" 1 1
+                            {"thomas_jefferson" 0 0
+                            }
+                            {"john_quincy_adams" 0 0
+                            }
+                        }
+                        {"herbert_hoover" 0 0
+                        }
+                    }
+                    {"barack_obama" 0 0
+                    }
                 }
-                {"CHINAA" 0 0
+                {"woodrow_wilson" 0 0
                 }
             }
-            {"cat" 0 0
+            {"strategic" 1 1
+                {"impulsive" 1 1
+                    {"principled" 1 1
+                        {"reserved" 1 1
+                            {"paranoid" 1 1
+                                {"richard_nixon" 0 0
+                                }
+                                {"bill_clinton" 0 0
+                                }
+                            }
+                            {"franklin_pierce" 0 0
+                            }
+                        }
+                        {"john_adams" 0 0
+                        }
+                    }
+                    {"richard_nixon" 0 0
+                    }
+                }
+                {"aloof" 1 1
+                    {"martin_van_buren" 0 0
+                    }
+                    {"george_h_w_bush" 0 0
+                    }
+                }
             }
         }
     }
-    {"kus" 1 1
-        {"interesting" 1 1
-            {"matan" 0 0
-            }
-            {"proga" 0 0
-            }
-        }
-        {"shark" 0 0
-        }
-    }
-}

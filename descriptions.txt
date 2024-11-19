@@ -1,11 +1,60 @@
-10
-Igor_Petrov 10 1 Brilliant 1 Intense 1 Tireless 1 Eccentric 0 Flexible 1 Analytical 1 Demanding 1 Inspiring 0 Approachable 0 Patient
-Elena_Smirnova 10 1 Calm 1 Precise 1 Disciplined 1 Reliable 1 Resourceful 1 Collaborative 1 Adaptive 1 Ingenious 0 Spontaneous 0 Demanding
-Sergey_Ivanov 10 1 Meticulous 1 Analytical 1 Charismatic 1 Quirky 1 Wise 1 Fast 1 Motivational 1 Precise 0 Patient 0 Flexible
-Anastasia_Fedorova 10 1 Efficient 1 Organized 1 Practical 1 Witty 1 Adaptive 1 Tireless 1 Demanding 1 Relentless 1 Motivational 0 Gentle
-Alexei_Voronov 10 1 Philosophical 1 Inspiring 1 Thoughtful 1 Poetic 1 Wise 1 Reflective 1 Calm 1 Charismatic 0 Practical 0 Flexible
-Nikolai_Andreev 10 1 Dependable 1 Logical 1 Grounded 1 Reliable 1 Practical 1 Thoughtful 1 Disciplined 1 Generous 1 Precise 0 Charismatic
-Maria_Vladimirova 10 1 Supportive 1 Creative 1 Enthusiastic 1 Adaptive 1 Compassionate 1 Cheerful 1 Collaborative 1 Patient 1 Inspiring 0 Critical
-Vladimir_Kuznetsov 10 1 Rigorous 1 Detail-oriented 1 Tireless 1 Analytical 1 Demanding 1 Motivational 1 Wise 1 Relentless 1 Precise 0 Kind
-Olga_Sergeeva 10 1 Inventive 1 Versatile 1 Open-minded 1 Cheerful 1 Efficient 1 Disciplined 1 Collaborative 1 Curious 1 Resourceful 0 Consistent
-Dmitry_Lebedev 10 1 Ambitious 1 Innovative 1 Charismatic 1 Passionate 1 Practical 1 Motivational 1 Competitive 1 Relentless 1 Tireless 0 Humble
+60
+george_washington 5 1 visionary 1 courageous 1 disciplined 0 stubborn 0 aloof
+thomas_jefferson 5 1 intelligent 1 diplomatic 1 principled 0 reserved 0 indecisive
+abraham_lincoln 5 1 courageous 1 compassionate 1 principled 0 indecisive 0 aloof
+theodore_roosevelt 5 1 energetic 1 determined 1 charismatic 0 impulsive 0 stubborn
+franklin_d_roosevelt 5 1 charismatic 1 empathetic 1 determined 0 reserved 0 cautious
+john_f_kennedy 5 1 charismatic 1 visionary 1 courageous 0 indecisive 0 aloof
+ronald_reagan 5 1 charismatic 1 diplomatic 1 optimistic 0 stubborn 0 aloof
+richard_nixon 5 1 intelligent 1 diplomatic 1 determined 0 paranoid 0 aloof
+andrew_jackson 5 1 bold 1 determined 1 charismatic 0 impulsive 0 stubborn
+dwight_d_eisenhower 5 1 disciplined 1 diplomatic 1 strategic 0 aloof 0 indecisive
+woodrow_wilson 5 1 visionary 1 principled 1 intelligent 0 rigid 0 aloof
+jimmy_carter 5 1 empathetic 1 principled 1 diplomatic 0 indecisive 0 aloof
+george_h_w_bush 5 1 diplomatic 1 intelligent 1 strategic 0 aloof 0 reserved
+bill_clinton 5 1 charismatic 1 intelligent 1 diplomatic 0 impulsive 0 arrogant
+george_w_bush 5 1 determined 1 strategic 1 decisive 0 stubborn 0 impulsive
+barack_obama 5 1 eloquent 1 intelligent 1 charismatic 0 aloof 0 indecisive
+abraham_lincoln 5 1 courageous 1 compassionate 1 principled 0 indecisive 0 aloof
+herbert_hoover 5 1 pragmatic 1 intelligent 1 disciplined 0 aloof 0 reserved
+calvin_coolidge 5 1 disciplined 1 principled 1 reserved 0 aloof 0 rigid
+john_adams 5 1 principled 1 intelligent 1 diplomatic 0 aloof 0 stubborn
+john_quincy_adams 5 1 intelligent 1 principled 1 reserved 0 aloof 0 stubborn
+martin_van_buren 5 1 diplomatic 1 strategic 1 intelligent 0 aloof 0 indecisive
+franklin_pierce 5 1 intelligent 1 diplomatic 1 reserved 0 aloof 0 indecisive
+james_buchanan 5 1 reserved 1 principled 1 diplomatic 0 indecisive 0 aloof
+abraham_lincoln 5 1 courageous 1 compassionate 1 principled 0 indecisive 0 aloof
+lyndon_b_johnson 5 1 determined 1 strategic 1 diplomatic 0 arrogant 0 aloof
+herbert_hoover 5 1 pragmatic 1 intelligent 1 disciplined 0 aloof 0 reserved
+richard_nixon 5 1 intelligent 1 diplomatic 1 determined 0 paranoid 0 aloof
+
+thomas_edison 5 1 innovative 1 determined 1 resourceful 0 impractical 0 stubborn
+nikola_tesla 5 1 creative 1 visionary 1 ingenious 0 eccentric 0 impulsive
+marie_curie 5 1 brilliant 1 diligent 1 focused 0 reclusive 0 aloof
+leonardo_da_vinci 5 1 imaginative 1 versatile 1 analytical 0 distracted 0 inconsistent
+alexander_graham_bell 5 1 inventive 1 curious 1 logical 0 obsessive 0 reserved
+galileo_galilei 5 1 pioneering 1 logical 1 meticulous 0 stubborn 0 defiant
+isaac_newton 5 1 analytical 1 brilliant 1 disciplined 0 aloof 0 rigid
+james_watt 5 1 industrious 1 resourceful 1 innovative 0 reserved 0 hesitant
+wright_brothers 5 1 ambitious 1 creative 1 collaborative 0 impractical 0 reckless
+steve_jobs 5 1 visionary 1 charismatic 1 innovative 0 demanding 0 impatient
+johannes_gutenberg 5 1 inventive 1 persistent 1 meticulous 0 obscure 0 reserved
+samuel_morse 5 1 ingenious 1 determined 1 resourceful 0 obsessive 0 impatient
+alexander_fleming 5 1 brilliant 1 curious 1 diligent 0 reserved 0 impulsive
+benjamin_franklin 5 1 innovative 1 versatile 1 logical 0 distracted 0 reserved
+george_washington_carver 5 1 resourceful 1 inventive 1 curious 0 obscure 0 hesitant
+tim_berners_lee 5 1 visionary 1 diligent 1 analytical 0 reserved 0 demanding
+grace_hopper 5 1 brilliant 1 disciplined 1 innovative 0 aloof 0 rigid
+charles_babbage 5 1 analytical 1 ingenious 1 logical 0 stubborn 0 impractical
+ada_lovelace 5 1 brilliant 1 visionary 1 disciplined 0 reserved 0 impulsive
+thomas_savery 5 1 resourceful 1 inventive 1 industrious 0 obscure 0 hesitant
+eli_whitney 5 1 innovative 1 determined 1 meticulous 0 impractical 0 reserved
+henry_ford 5 1 resourceful 1 industrious 1 disciplined 0 stubborn 0 rigid
+robert_fulton 5 1 inventive 1 ambitious 1 determined 0 impractical 0 reckless
+guglielmo_marconi 5 1 brilliant 1 resourceful 1 innovative 0 impulsive 0 reserved
+james_clerk_maxwell 5 1 analytical 1 brilliant 1 disciplined 0 aloof 0 impractical
+alessandro_volta 5 1 inventive 1 meticulous 1 curious 0 reserved 0 hesitant
+herman_hollerith 5 1 ingenious 1 disciplined 1 analytical 0 aloof 0 rigid
+blaise_pascal 5 1 brilliant 1 creative 1 logical 0 reserved 0 impractical
+antonio_meucci 5 1 inventive 1 diligent 1 curious 0 obscure 0 hesitant
+otto_von_guericke 5 1 resourceful 1 pioneering 1 meticulous 0 impulsive 0 reserved
