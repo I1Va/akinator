@@ -136,7 +136,7 @@ void fprintf_n_chars(FILE *stream, const char c, const size_t n) {
     }
 }
 
-void akinator_tree_file_dump(FILE* stream, bin_tree_elem_t *node, size_t indent) {
+void akinator_tree_file_dump_rec(FILE* stream, bin_tree_elem_t *node, size_t indent) {
     if (!node) {
         return;
     }
@@ -144,21 +144,30 @@ void akinator_tree_file_dump(FILE* stream, bin_tree_elem_t *node, size_t indent)
     fprintf(stream, "{");
     fprintf(stream, "\"%s\" %d %d\n", node->data.name, node->left != NULL, node->right != NULL);
     if (node->left) {
-        akinator_tree_file_dump(stream, node->left, indent + 4);
+        akinator_tree_file_dump_rec(stream, node->left, indent + 4);
     }
-    // else {
-    //     fprintf_n_chars(stream, ' ', indent);
-    //     fprintf(stream, "{}\n");
-    // }
     if (node->right) {
-        akinator_tree_file_dump(stream, node->right, indent + 4);
+        akinator_tree_file_dump_rec(stream, node->right, indent + 4);
     }
-    // else {
-    //     fprintf_n_chars(stream, ' ', indent);
-    //     fprintf(stream, "{}\n");
-    // }
     fprintf_n_chars(stream, ' ', indent);
     fprintf(stream, "}\n");
+}
+
+void akinator_tree_file_dump(const char path[], bin_tree_t *tree, size_t indent) {
+    assert(path != NULL);
+    assert(tree != NULL);
+
+    FILE *tree_file_ptr = fopen(path, "wb");
+    if (tree_file_ptr == NULL) {
+        printf("file '%s' open failed", path);
+        return;
+    }
+
+    akinator_tree_file_dump_rec(tree_file_ptr, tree->root, indent);
+
+    if (fclose(tree_file_ptr)) {
+        debug("file '%s' close failed", path);
+    }
 }
 
 void akinator_print_node_path(bin_tree_elem_t *node, bool left_son_state) {
@@ -250,12 +259,12 @@ void akinator_fprintf_feature_stack(FILE* stream, stack_t *feature_stack) {
     }
 }
 
-void akinator_give_definition(bin_tree_t *tree, const char name[]) {
+bool akinator_give_definition(bin_tree_t *tree, const char name[]) {
     bin_tree_elem_t *start_node = akinator_get_node_ptr(tree, name);
 
     if (start_node == NULL) {
         printf("Персонажа '%s' нет в базе данных\n", name);
-        return;
+        return false;
     }
 
     printf("Описание персонажа '%s': \n", name);
@@ -276,13 +285,15 @@ void akinator_give_definition(bin_tree_t *tree, const char name[]) {
     printf("\n");
 
     stack_destroy(&feature_stack);
+
+    return true;
 }
 
 bool feature_t_cmp(feature_t *feature_1, feature_t *feature_2) {
     return (strcmp(feature_1->data, feature_2->data) == 0) && feature_1->positive == feature_2->positive;
 }
 
-void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) {
+bool akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) {
     bin_tree_elem_t *node1 = akinator_get_node_ptr(tree, name1);
     bin_tree_elem_t *node2 = akinator_get_node_ptr(tree, name2);
 
@@ -290,11 +301,11 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
 
     if (node1 == NULL) {
         printf("Персонажа '%s' нет в базе данных\n", name1);
-        return;
+        return false;
     }
     if (node2 == NULL) {
         printf("Персонажа '%s' нет в базе данных\n", name2);
-        return;
+        return false;
     }
 
     stack_t path1_stack = {};
@@ -333,7 +344,7 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
 
         feature_t feature_2 = *(feature_t *) stack_get_elem(&path2_stack, eq_prefix_idx, &stack_err);
         if (stack_err != STK_ERR_OK) {
-            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_1")
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "feature_2")
             CLEAR_MEMORY(exit_mark)
         }
 
@@ -346,7 +357,8 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
             break;
         }
     }
-    printf("\nОтличительные черты '%s':\n", name1);
+
+    printf("\n\nОтличительные черты '%s':\n", name1);
     for (size_t idx = eq_prefix_idx; idx < path1_stack.size; idx++) {
         feature_t feature_1 = *(feature_t *) stack_get_elem(&path1_stack, idx, &stack_err);
         if (stack_err != STK_ERR_OK) {
@@ -358,6 +370,7 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
         }
         printf("'%s'; ", feature_1.data);
     }
+    printf("\n");
 
     printf("\nОтличительные черты '%s':\n", name2);
     for (size_t idx = eq_prefix_idx; idx < path2_stack.size; idx++) {
@@ -371,10 +384,18 @@ void akinator_compare(bin_tree_t *tree, const char name1[], const char name2[]) 
         }
         printf("'%s'; ", feature_2.data);
     }
+    printf("\n");
 
-    exit_mark:
     stack_destroy(&path1_stack);
     stack_destroy(&path2_stack);
+    return true;
+
+    exit_mark:
+
+    stack_destroy(&path1_stack);
+    stack_destroy(&path2_stack);
+
+    return false;
 }
 
 bool description_t_ctor(description_t *description, char *name, const size_t features_cnt, str_storage_t **storage) {

@@ -34,110 +34,109 @@ int test_mode() {
 
     str_storage_t *string_storage = str_storage_t_ctor(CHUNK_SIZE);
 
-
-    bin_tree_log_file_start(tree.log_file_ptr);
-
-    bin_tree_elem_value_t node = {1, (char *) EMPTY_LEAF_NAME};
-    tree.root = bin_tree_create_node(&tree, NULL, false, NULL, NULL, node);
-
-    for (int i = 0; i < 3; i++) {
-        akinator_play(&tree, tree.root, &string_storage);
-    }
-    TreeLogDump(&tree);
-
-    FILE *tree_file_ptr = fopen(TREE_DUMP_FILE, "wb");
-    if (tree_file_ptr == NULL) {
-        debug("file '%s' open failed", TREE_DUMP_FILE);
-        CLEAR_MEMORY(exit_mark)
-    }
-
-    akinator_tree_file_dump(tree_file_ptr, tree.root);
-
-    if (fclose(tree_file_ptr)) {
-        debug("file '%s' close failed", TREE_DUMP_FILE);
-        CLEAR_MEMORY(exit_mark)
-    }
-
-    if (1) {
-        str_t text = read_text_from_file(TREE_DUMP_FILE);
-        remove_chars_from_text(&text, " \n");
-
-        printf("%s\n\n", text);
-        bin_tree_t new_tree = {};
-        bin_tree_ctor(&new_tree, LOGS_FILE);
-        akinator_load_tree(&new_tree, NULL, false, &text, &string_storage);
-        TreeLogDump(&new_tree);
-    }
+    descr_arr_t *arr = get_descriptions_from_file("./descriptions.txt", &string_storage);
+    build_tree_from_descr_arr(&tree, arr, &string_storage);
+    akinator_tree_file_dump(TREE_DUMP_FILE, &tree);
 
     bin_tree_dtor(&tree);
     str_storage_t_dtor(string_storage);
+    descr_arr_t_dtor(arr);
+
     return EXIT_SUCCESS;
-
-    exit_mark:
-    bin_tree_dtor(&tree);
-    str_storage_t_dtor(string_storage);
-    return EXIT_FAILURE;
 }
 
 int main() {
     create_logs_dir(logs_dir);
-
     bin_tree_err_t last_err = BT_ERR_OK;
 
     bin_tree_t tree = {};
     bin_tree_ctor(&tree, "./logs/log.html");
-
     str_storage_t *string_storage = str_storage_t_ctor(CHUNK_SIZE);
     bin_tree_log_file_start(tree.log_file_ptr);
 
 
-    str_t text = read_text_from_file(TREE_DUMP_FILE);
-    str_t temp_text = text;
-    remove_chars_from_text(&text, " \n");
 
-    akinator_load_tree(&tree, NULL, false, &temp_text, &string_storage);
-
-
-
-
-    //descr_arr_t *arr = get_descriptions_from_file("./descriptions.txt", &string_storage);
-    // build_tree_from_descr_arr(&tree, arr, &string_storage);
-
-    akinator_give_definition(&tree, "charles_babbage");
-    akinator_compare(&tree, "steve_jobs", "nikola_tesla");
+    printf("Choose mode : \nPlay[P], Compare[C], Definition[D]:\n");
+    char mode = 0;
+    scanf("%c", &mode);
+    if (mode == 'P') {
+        printf_grn("PLAY MODE\n");
 
 
-    // descr_arr_t_dtor(arr);
 
-    FILE *tree_file_ptr = fopen(TREE_DUMP_FILE, "wb");
-    if (tree_file_ptr == NULL) {
-        debug("file '%s' open failed", TREE_DUMP_FILE);
-        CLEAR_MEMORY(exit_mark)
+        str_t text = read_text_from_file(TREE_DUMP_FILE);
+        str_t temp_text = text;
+        remove_chars_from_text(&text, " \n");
+        akinator_load_tree(&tree, NULL, false, &temp_text, &string_storage);
+
+        akinator_play(&tree, tree.root, &string_storage);
+
+        printf("Save tree: [0/1]?\n");
+        int ans = 0;
+        scanf("%d", &ans);
+        if (ans == 1) {
+            char tree_dump_name[BUFSIZ] = {};
+            printf("enter tree file name: \n");
+            scanf("%s", tree_dump_name);
+
+            akinator_tree_file_dump(tree_dump_name, &tree);
+        }
+
+        str_storage_t_dtor(string_storage);
+        bin_tree_dtor(&tree);
+        FREE(text.str_ptr)
+
+        return EXIT_SUCCESS;
+    } else if (mode == 'C') {
+        printf_grn("COMPARE MODE\n");
+
+        str_t text = read_text_from_file(TREE_DUMP_FILE);
+        str_t temp_text = text;
+        remove_chars_from_text(&text, " \n");
+        akinator_load_tree(&tree, NULL, false, &temp_text, &string_storage);
+
+        char name1[BUFSIZ] = {};
+        char name2[BUFSIZ] = {};
+
+        const size_t attemps = 5;
+        for (size_t i = 0; i < attemps; i++) {
+            scanf("%s %s", name1, name2);
+            printf("name1 : '%s', name2 : '%s'\n", name1, name2);
+            if (akinator_compare(&tree, name1, name2)) {
+                break;
+            }
+        }
+
+        str_storage_t_dtor(string_storage);
+        bin_tree_dtor(&tree);
+        FREE(text.str_ptr)
+    } else if (mode == 'D') {
+        printf_grn("DEFINITION MODE\n");
+
+        str_t text = read_text_from_file(TREE_DUMP_FILE);
+        str_t temp_text = text;
+        remove_chars_from_text(&text, " \n");
+        akinator_load_tree(&tree, NULL, false, &temp_text, &string_storage);
+
+        char name[BUFSIZ] = {};
+
+        const size_t attemps = 5;
+        for (size_t i = 0; i < attemps; i++) {
+            scanf("%s", name);
+            printf("name : '%s'\n", name);
+            if (akinator_give_definition(&tree, name)) {
+                break;
+            }
+        }
+        str_storage_t_dtor(string_storage);
+        bin_tree_dtor(&tree);
+        FREE(text.str_ptr)
+    } else {
+        test_mode();
+        str_storage_t_dtor(string_storage);
+        bin_tree_dtor(&tree);
     }
 
-    akinator_tree_file_dump(tree_file_ptr, tree.root);
-
-    if (fclose(tree_file_ptr)) {
-        debug("file '%s' close failed", TREE_DUMP_FILE);
-        CLEAR_MEMORY(exit_mark)
-    }
-
-    TreeLogDump(&tree);
-
-    bin_tree_dtor(&tree);
-    // descr_arr_t_dtor(arr);
-    str_storage_t_dtor(string_storage);
-    FREE(text.str_ptr)
 
     return EXIT_SUCCESS;
-
-    exit_mark:
-    bin_tree_dtor(&tree);
-    str_storage_t_dtor(string_storage);
-    FREE(text.str_ptr)
-    // if (tree_file_ptr != NULL) {
-    //     fclose(tree_file_ptr);
-    // }
-
-    return EXIT_FAILURE;
 }
