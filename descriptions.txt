@@ -1,4 +1,4 @@
-60
+43
 george_washington 5 1 visionary 1 courageous 1 disciplined 0 stubborn 0 aloof
 thomas_jefferson 5 1 intelligent 1 diplomatic 1 principled 0 reserved 0 indecisive
 abraham_lincoln 5 1 courageous 1 compassionate 1 principled 0 indecisive 0 aloof
@@ -43,18 +43,3 @@ samuel_morse 5 1 ingenious 1 determined 1 resourceful 0 obsessive 0 impatient
 alexander_fleming 5 1 brilliant 1 curious 1 diligent 0 reserved 0 impulsive
 benjamin_franklin 5 1 innovative 1 versatile 1 logical 0 distracted 0 reserved
 george_washington_carver 5 1 resourceful 1 inventive 1 curious 0 obscure 0 hesitant
-tim_berners_lee 5 1 visionary 1 diligent 1 analytical 0 reserved 0 demanding
-grace_hopper 5 1 brilliant 1 disciplined 1 innovative 0 aloof 0 rigid
-charles_babbage 5 1 analytical 1 ingenious 1 logical 0 stubborn 0 impractical
-ada_lovelace 5 1 brilliant 1 visionary 1 disciplined 0 reserved 0 impulsive
-thomas_savery 5 1 resourceful 1 inventive 1 industrious 0 obscure 0 hesitant
-eli_whitney 5 1 innovative 1 determined 1 meticulous 0 impractical 0 reserved
-henry_ford 5 1 resourceful 1 industrious 1 disciplined 0 stubborn 0 rigid
-robert_fulton 5 1 inventive 1 ambitious 1 determined 0 impractical 0 reckless
-guglielmo_marconi 5 1 brilliant 1 resourceful 1 innovative 0 impulsive 0 reserved
-james_clerk_maxwell 5 1 analytical 1 brilliant 1 disciplined 0 aloof 0 impractical
-alessandro_volta 5 1 inventive 1 meticulous 1 curious 0 reserved 0 hesitant
-herman_hollerith 5 1 ingenious 1 disciplined 1 analytical 0 aloof 0 rigid
-blaise_pascal 5 1 brilliant 1 creative 1 logical 0 reserved 0 impractical
-antonio_meucci 5 1 inventive 1 diligent 1 curious 0 obscure 0 hesitant
-otto_von_guericke 5 1 resourceful 1 pioneering 1 meticulous 0 impulsive 0 reserved

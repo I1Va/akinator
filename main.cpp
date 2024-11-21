@@ -24,25 +24,17 @@ const char TREE_DUMP_FILE[] = "./tree.txt";
 const char EMPTY_LEAF_NAME[] = "ХЗ_ЧТО";
 
 
-int test_mode() {
-    create_logs_dir(logs_dir);
+akinator_err_t load_tree_from_description(bin_tree_t *tree, str_storage_t **string_storage) {;
+    descr_arr_t *arr = get_descriptions_from_file("./descriptions.txt", string_storage);
+    if (arr == NULL) {
+        return AR_ERR_GET_DESCR;
+    }
 
-    bin_tree_err_t last_err = BT_ERR_OK;
+    build_tree_from_descr_arr(tree, arr, string_storage);
 
-    bin_tree_t tree = {};
-    bin_tree_ctor(&tree, "./logs/log.html");
-
-    str_storage_t *string_storage = str_storage_t_ctor(CHUNK_SIZE);
-
-    descr_arr_t *arr = get_descriptions_from_file("./descriptions.txt", &string_storage);
-    build_tree_from_descr_arr(&tree, arr, &string_storage);
-    akinator_tree_file_dump(TREE_DUMP_FILE, &tree);
-
-    bin_tree_dtor(&tree);
-    str_storage_t_dtor(string_storage);
     descr_arr_t_dtor(arr);
 
-    return EXIT_SUCCESS;
+    return AR_ERR_OK;
 }
 
 int main() {
@@ -55,14 +47,11 @@ int main() {
     bin_tree_log_file_start(tree.log_file_ptr);
 
 
-
-    printf("Choose mode : \nPlay[P], Compare[C], Definition[D]:\n");
+    printf("Choose mode : \nPlay[P], Compare[C], Definition[D], Load (from description file)[L]?\n");
     char mode = 0;
     scanf("%c", &mode);
     if (mode == 'P') {
         printf_grn("PLAY MODE\n");
-
-
 
         str_t text = read_text_from_file(TREE_DUMP_FILE);
         str_t temp_text = text;
@@ -82,8 +71,6 @@ int main() {
             akinator_tree_file_dump(tree_dump_name, &tree);
         }
 
-        str_storage_t_dtor(string_storage);
-        bin_tree_dtor(&tree);
         FREE(text.str_ptr)
 
         return EXIT_SUCCESS;
@@ -107,8 +94,6 @@ int main() {
             }
         }
 
-        str_storage_t_dtor(string_storage);
-        bin_tree_dtor(&tree);
         FREE(text.str_ptr)
     } else if (mode == 'D') {
         printf_grn("DEFINITION MODE\n");
@@ -128,15 +113,31 @@ int main() {
                 break;
             }
         }
-        str_storage_t_dtor(string_storage);
-        bin_tree_dtor(&tree);
+
         FREE(text.str_ptr)
-    } else {
-        test_mode();
-        str_storage_t_dtor(string_storage);
-        bin_tree_dtor(&tree);
+    } else if (mode == 'L'){
+        akinator_err_t ret_err = load_tree_from_description(&tree, &string_storage);
+
+        if (ret_err != AR_ERR_OK) {
+            DEBUG_AR_LIST_ERROR(ret_err, )
+            bin_tree_dtor(&tree);
+            return EXIT_FAILURE;
+        }
     }
 
+    printf("Dump database? [0/1]?\n");
+    int answer = 0;
+    scanf("%d", &answer);
+    if (answer == 1) {
+        akinator_tree_file_dump(TREE_DUMP_FILE, &tree);
+        TreeLogDump(&tree);
+        // system("")
+    }
+
+    bin_tree_dtor(&tree);
+    if (string_storage != NULL) {
+        str_storage_t_dtor(string_storage);
+    }
 
     return EXIT_SUCCESS;
 }

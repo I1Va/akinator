@@ -224,7 +224,7 @@ bin_tree_elem_t *akinator_get_node_ptr(bin_tree_t *tree, const char name[]) {
 
         bin_tree_elem_t *node = *(bin_tree_elem_t **) stack_get_elem(&tree->node_stack, i, &err);
         if (err != STK_ERR_OK) {
-            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "stack elem[%lu] get failed")
+            DEBUG_AR_LIST_ERROR(AR_ERR_STACK, "stack elem[%lu] get failed", i)
             return NULL;
         }
         // printf("node[%lu] : '%s' left_son?: {%d}\n", i, node->data.name, node->is_node_left_son);
@@ -517,7 +517,7 @@ descr_arr_t *get_descriptions_from_file(const char path[], str_storage_t **stora
         for (size_t feature_idx = 0; feature_idx < features_cnt; feature_idx++) {
             int positive_state = 0;
             fscanf(inp_file, "%d %s", &positive_state, bufer);
-            printf("bufer_sz: %lu\n", strlen(bufer));
+            // printf("bufer_sz: %lu\n", strlen(bufer));
             description->features[feature_idx].data = get_new_str_ptr(storage, strlen(bufer));
             description->features[feature_idx].positive = positive_state;
             strcpy(description->features[feature_idx].data, bufer);
@@ -572,37 +572,35 @@ void akinator_add_description_to_tree(bin_tree_t *tree, bin_tree_elem_t *cur_nod
     // У каждой вершины, у которой leaf == 0 обязательно есть левый и правый сыновья
 
     if (cur_node->data.value) { // leaf
-        printf("Ваш персонаж: '%s'? [0/1]\n", cur_node->data.name);
+        // printf("Ваш персонаж: '%s'? [0/1]\n", cur_node->data.name);
         int answer = (strcmp(descr->name, cur_node->data.name) == 0);
 
-        printf("-> %d\n", answer);
+        // printf("-> %d\n", answer);
         if (answer) {
-            printf("Изи, я угадал ^_^!\n");
+            // printf("Изи, я угадал ^_^!\n");
             return;
         } else {
-            printf("Хм... Не могу угадать. Кто ваш персонаж?\n");
+            // printf("Хм... Не могу угадать. Кто ваш персонаж?\n");
 
             char *name = get_new_str_ptr(string_storage, descr->name_len);
             strncpy(name, descr->name, descr->name_len);
 
-            printf("-> '%s'\n", name);
+            // printf("-> '%s'\n", name);
 
-            printf("Чем ваш персонаж отличается от '%s'?\n", cur_node->data.name);
+            // printf("Чем ваш персонаж отличается от '%s'?\n", cur_node->data.name);
 
             feature_t *uniq_feature = get_uniq_feature(descr);
             if (uniq_feature == NULL) {
-                DEBUG_AR_LIST_ERROR(AR_ERR_NOT_ENOUGH_FEATURES, "description : '%s'")
+                DEBUG_AR_LIST_ERROR(AR_ERR_NOT_ENOUGH_FEATURES, "description : '%s'", uniq_feature->data)
                 return;
             }
 
-            printf("-> '%s'\n", uniq_feature->data);
+            // printf("-> '%s'\n", uniq_feature->data);
 
             bin_tree_elem_t *new_node = bin_tree_create_node(tree, NULL, false, NULL, NULL, {1, descr->name});
 
             if (uniq_feature->positive) {
                 bin_tree_elem_t *feature_node = bin_tree_create_node(tree, cur_node->prev, cur_node->is_node_left_son, cur_node, NULL, {0, uniq_feature->data});
-                printf_grn("cur_node : '%s', left? : [%d]\n", cur_node->data.name, cur_node->is_node_left_son);
-                printf_grn("feature : '%s', left? : [%d]\n", feature_node->data.name, cur_node->is_node_left_son);
                 new_node->prev = feature_node;
                 feature_node->right = new_node;
                 cur_node->is_node_left_son = true;
@@ -625,15 +623,13 @@ void akinator_add_description_to_tree(bin_tree_t *tree, bin_tree_elem_t *cur_nod
                 cur_node->prev = feature_node;
                 cur_node->data.value = true;
             }
-
-
             return;
         }
     } else {
-        printf("У вашего персонажа есть признак: %s? [0/1]\n", cur_node->data.name);
+        // printf("У вашего персонажа есть признак: %s? [0/1]\n", cur_node->data.name);
 
         int answer = feature_in_description(descr, cur_node->data.name, arr);
-        printf("-> %d\n", answer);
+        // printf("-> %d\n", answer);
 
         if (!answer) {
             akinator_add_description_to_tree(tree, cur_node->left, string_storage, descr, arr);

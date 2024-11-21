@@ -13,6 +13,7 @@ enum akinator_err_t {
     AR_ERR_REALLOC                  = 1ull << 5,
     AR_ERR_NULLPTR                  = 1ull << 6,
     AR_ERR_NOT_ENOUGH_FEATURES      = 1ull << 7,
+    AR_ERR_GET_DESCR                = 1ull << 8,
 };
 
 const size_t ERR_DESCR_MAX_SIZE = 128;

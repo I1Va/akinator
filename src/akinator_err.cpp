@@ -23,7 +23,8 @@ void akinator_err_get_descr(const enum akinator_err_t err_code, char err_descr_s
     DESCR_(err_code, AR_ERR_CYCLED);
     DESCR_(err_code, AR_ERR_REALLOC);
     DESCR_(err_code, AR_ERR_NULLPTR);
-    DESCR_(err_code,AR_ERR_NOT_ENOUGH_FEATURES);
+    DESCR_(err_code, AR_ERR_NOT_ENOUGH_FEATURES);
+    DESCR_(err_code, AR_ERR_GET_DESCR);
 
     if (!error) {
         sprintf(err_descr_str, "ALL IS OK:)");

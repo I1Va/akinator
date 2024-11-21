@@ -13,15 +13,7 @@
                                                     {"pioneering" 1 1
                                                         {"industrious" 1 1
                                                             {"innovative" 1 1
-                                                                {"visionary" 1 1
-                                                                    {"analytical" 1 1
-                                                                        {"george_washington" 0 0
-                                                                        }
-                                                                        {"charles_babbage" 0 0
-                                                                        }
-                                                                    }
-                                                                    {"tim_berners_lee" 0 0
-                                                                    }
+                                                                {"george_washington" 0 0
                                                                 }
                                                                 {"benjamin_franklin" 0 0
                                                                 }
@@ -29,30 +21,14 @@
                                                             {"james_watt" 0 0
                                                             }
                                                         }
-                                                        {"meticulous" 1 1
-                                                            {"galileo_galilei" 0 0
-                                                            }
-                                                            {"otto_von_guericke" 0 0
-                                                            }
+                                                        {"galileo_galilei" 0 0
                                                         }
                                                     }
                                                     {"persistent" 1 1
                                                         {"resourceful" 1 1
-                                                            {"meticulous" 1 1
-                                                                {"diligent" 1 1
-                                                                    {"alexander_graham_bell" 0 0
-                                                                    }
-                                                                    {"antonio_meucci" 0 0
-                                                                    }
-                                                                }
-                                                                {"alessandro_volta" 0 0
-                                                                }
+                                                            {"alexander_graham_bell" 0 0
                                                             }
-                                                            {"industrious" 1 1
-                                                                {"george_washington_carver" 0 0
-                                                                }
-                                                                {"thomas_savery" 0 0
-                                                                }
+                                                            {"george_washington_carver" 0 0
                                                             }
                                                         }
                                                         {"johannes_gutenberg" 0 0
@@ -63,22 +39,14 @@
                                                 }
                                             }
                                             {"curious" 1 1
-                                                {"impulsive" 1 1
-                                                    {"guglielmo_marconi" 0 0
-                                                    }
-                                                    {"marie_curie" 0 0
-                                                    }
+                                                {"marie_curie" 0 0
                                                 }
                                                 {"alexander_fleming" 0 0
                                                 }
                                             }
                                         }
                                         {"ambitious" 1 1
-                                            {"logical" 1 1
-                                                {"nikola_tesla" 0 0
-                                                }
-                                                {"blaise_pascal" 0 0
-                                                }
+                                            {"nikola_tesla" 0 0
                                             }
                                             {"wright_brothers" 0 0
                                             }
@@ -90,20 +58,12 @@
                                 {"arrogant" 1 1
                                     {"innovative" 1 1
                                         {"ingenious" 1 1
-                                            {"ambitious" 1 1
-                                                {"lyndon_b_johnson" 0 0
-                                                }
-                                                {"robert_fulton" 0 0
-                                                }
+                                            {"lyndon_b_johnson" 0 0
                                             }
                                             {"samuel_morse" 0 0
                                             }
                                         }
-                                        {"meticulous" 1 1
-                                            {"thomas_edison" 0 0
-                                            }
-                                            {"eli_whitney" 0 0
-                                            }
+                                        {"thomas_edison" 0 0
                                         }
                                     }
                                     {"george_w_bush" 0 0
@@ -115,29 +75,9 @@
                         }
                         {"principled" 1 1
                             {"analytical" 1 1
-                                {"innovative" 1 1
-                                    {"visionary" 1 1
-                                        {"industrious" 1 1
-                                            {"dwight_d_eisenhower" 0 0
-                                            }
-                                            {"henry_ford" 0 0
-                                            }
-                                        }
-                                        {"ada_lovelace" 0 0
-                                        }
-                                    }
-                                    {"grace_hopper" 0 0
-                                    }
+                                {"dwight_d_eisenhower" 0 0
                                 }
-                                {"aloof" 1 1
-                                    {"ingenious" 1 1
-                                        {"james_clerk_maxwell" 0 0
-                                        }
-                                        {"herman_hollerith" 0 0
-                                        }
-                                    }
-                                    {"isaac_newton" 0 0
-                                    }
+                                {"isaac_newton" 0 0
                                 }
                             }
                             {"calvin_coolidge" 0 0
